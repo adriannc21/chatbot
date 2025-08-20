@@ -147,6 +147,9 @@ body.category-base-de-conocimiento #slider {
   align-items: center;
   gap: 1rem;
 }
+#chatbotFabrix .content.show.chatopen .top {
+  padding: 1rem 0;
+}
 #chatbotFabrix .content .top .fabrix {
   width: 5rem;
   background-color: var(--white);
@@ -276,28 +279,23 @@ body.category-base-de-conocimiento #slider {
 }
 /* Burbujas del chat */
 #chatbotFabrix .chat-bubble {
-  background: #f1f1f1;
   padding: 0.75rem;
-  border-radius: 10px;
-  margin-bottom: 0.5rem;
   max-width: 85%;
   word-wrap: break-word;
-  line-height: 1.35;
-  font-size: 0.95rem;
 }
 #chatbotFabrix .bot {
   background: #ffefd8;
   align-self: flex-start;
   border: 1px solid #ffbb94;
   font-size: 0.8rem;
-  border-radius: 0 0.75rem 0.75rem 0.75rem;
+  border-radius: 0.5rem;
 }
 #chatbotFabrix .user {
   background: #d7e3ff;
   align-self: flex-end;
   border: 1px solid #8bb0ff;
   font-size: 0.8rem;
-  border-radius: 0.75rem 0 0.75rem 0.75rem;
+  border-radius: 0.5rem;
 }
 
 #chatbotFabrix .producto {
@@ -353,4 +351,13 @@ body.category-base-de-conocimiento #slider {
 #chatbotFabrix .producto .btn-ver:hover {
   background: #084f98;
   border-color: #084f98;
+}
+
+#chatbotFabrix .content .recommendation-chat {
+  display: none;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+  background: white;
+  border-radius: 0.5rem;
 }

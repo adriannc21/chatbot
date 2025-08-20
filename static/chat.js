@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const flow = document.querySelector("#chatbotFabrix .top .flow");
   const recButton = document.querySelector("#chatbotFabrix .help.product .btn-in");
   const recChat = document.querySelector("#chatbotFabrix .recommendation-chat");
+  const helpBtn = document.querySelector("#chatbotFabrix .content .info .help .btn-in"); // 👈 botón para abrir con chatopen
 
   // Toggle del launcher
   if (activ) activ.addEventListener("click", toggleFabrixChat);
@@ -43,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Cerrar
   if (closeBtn) {
     closeBtn.addEventListener("click", () => {
-      content.classList.remove("show");
+      content.classList.remove("show", "chatopen"); // 👈 se quitan ambas
       const activDiv = document.querySelector("#chatbotFabrix .activ");
       if (activDiv) activDiv.style.display = "flex";
     });
@@ -61,6 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
         returnBtn.style.display = "none";
         flow.style.display = "flex";
         currentStep = "info";
+        content.classList.remove("chatopen"); // 👈 quitar chatopen al volver
         return;
       }
       if (currentStep === "preguntas") {
@@ -75,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
         returnBtn.style.display = "none";
         flow.style.display = "flex";
         currentStep = "info";
+        content.classList.remove("chatopen"); // 👈 quitar chatopen al volver
       }
     });
   }
@@ -90,6 +93,13 @@ document.addEventListener("DOMContentLoaded", function () {
       currentStep = "recommendation";
 
       initChatInterface();
+    });
+  }
+
+  /* ========== Abrir chat con chatopen desde helpBtn ========== */
+  if (helpBtn) {
+    helpBtn.addEventListener("click", () => {
+      content.classList.add("show", "chatopen"); // 👈 aquí añadimos las dos
     });
   }
 });
