@@ -1,0 +1,34 @@
+# === Python ===
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
+# === Entorno virtual ===
+venv/
+.env/
+.venv/
+ENV/
+env/
+
+# === Archivos de entorno ===
+*.env
+.env.local
+.env.*.local
+
+# === Configuración IDE/Editor ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === Archivos temporales ===
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+
+# === Archivos específicos de proyecto ===
+productos_vectorizados.json
+prompt_base.txt
