@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Fabrix Chatbot</title>
     <link rel="stylesheet" href="estilos.css" />
   </head>
   <body>
@@ -38,6 +38,7 @@
             />
           </div>
         </div>
+
         <div class="info">
           <div class="help product">
             <p class="flow">¿Tienes dudas sobre qué comprar?</p>
@@ -61,12 +62,29 @@
           </div>
         </div>
 
-        <div class="recommendation-chat"></div>
+        <!-- Bloque de consulta fijo en HTML -->
+        <div class="recommendation-chat">
+          <div id="chatResponse"></div>
+
+          <div class="consulta">
+            <textarea
+              id="userQuestion"
+              class="text"
+              placeholder="Escribe tu consulta..."
+            ></textarea>
+            <button id="sendQuestion" class="btn-cons">
+              <img
+                src="https://dev.tiendakrear3d.com/wp-content/uploads/2025/06/icon-enviar.webp"
+                alt=""
+              />
+            </button>
+          </div>
+        </div>
+
         <div class="tree"></div>
       </div>
     </div>
 
-    <!-- JS externo -->
     <script src="chat.js" defer></script>
   </body>
 </html>

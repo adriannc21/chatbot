@@ -120,7 +120,7 @@ body.category-base-de-conocimiento #slider {
   right: 0;
   background: #fff;
   border-radius: 1rem;
-  width: 25rem;
+  width: 23rem;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   transform-origin: bottom right;
   transform: scale(0);
@@ -284,16 +284,51 @@ body.category-base-de-conocimiento #slider {
   word-wrap: break-word;
 }
 #chatbotFabrix .bot {
-  background: #ffefd8;
   align-self: flex-start;
-  border: 1px solid #ffbb94;
+  background-color: white;
   font-size: 0.8rem;
   border-radius: 0.5rem;
+}
+#chatbotFabrix .bot.bot-products {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  gap: 1rem;
+  background-color: transparent;
+}
+#chatbotFabrix .bot.bot-products .producto-card {
+  background-color: var(--white);
+  border-radius: 0.5rem;
+  display: flex;
+  padding: 0.5rem;
+  gap: 1rem;
+}
+#chatbotFabrix .bot.bot-products .producto-card .image {
+  width: 5rem;
+  height: 5rem;
+}
+#chatbotFabrix .bot.bot-products .producto-card .dats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+#chatbotFabrix .bot.bot-products .producto-card .dats .name {
+  color: var(--black);
+  line-height: 1.2;
+  font-weight: 500;
+}
+#chatbotFabrix .bot.bot-products .producto-card .dats .price {
+  color: var(--primary);
+  font-size: 1rem;
+  font-weight: 500;
+}
+#chatbotFabrix .bot.bot-products .producto-card .dats a {
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 #chatbotFabrix .user {
   background: #d7e3ff;
   align-self: flex-end;
-  border: 1px solid #8bb0ff;
   font-size: 0.8rem;
   border-radius: 0.5rem;
 }
@@ -356,8 +391,56 @@ body.category-base-de-conocimiento #slider {
 #chatbotFabrix .content .recommendation-chat {
   display: none;
   flex-direction: column;
+  background: #f1f1f1;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+#chatbotFabrix .content .recommendation-chat #chatResponse {
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
   gap: 1rem;
-  background: white;
-  border-radius: 0.5rem;
+  min-height: 250px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+#chatbotFabrix .content .recommendation-chat #chatResponse {
+  scrollbar-width: thin; /* delgada */
+  scrollbar-color: #a7a7a7 #f0f0f0; /* thumb / track */
+}
+#chatbotFabrix .content .recommendation-chat .consulta {
+  display: flex;
+  background-color: var(--white);
+  padding: 0.5rem;
+  border-top: 1px solid #0000001c;
+}
+#chatbotFabrix .content .recommendation-chat .consulta .text {
+  flex: 1;
+  border: 0;
+  outline: none;
+  padding: 0.5rem;
+  font-family: inherit;
+  resize: none;
+}
+#chatbotFabrix .content .recommendation-chat .consulta .btn-cons {
+  background-color: transparent;
+  outline: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+#chatbotFabrix .content .recommendation-chat .consulta .btn-cons img {
+  width: 1rem;
+  filter: brightness(1) invert(0) grayscale(1);
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+#chatbotFabrix .chat-bubble.bot div > div {
+  animation: spin 1s linear infinite;
 }
