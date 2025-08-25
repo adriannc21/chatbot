@@ -129,7 +129,7 @@ function initChatInterface() {
     card.rel = "noopener";
 
     card.innerHTML = `
-    <img class="image" src="${producto.imagen}" alt="${producto.nombre}" />
+    <img class="image" src="${producto.imagen}" />
     <div class="dats">
       <span class="name">
         ${producto.nombre}
@@ -142,9 +142,11 @@ function initChatInterface() {
     return card;
   };
 
-  addMsg(
-    "👋 ¡Hola! Soy Fabrix, tu asistente virtual. ¿En qué puedo ayudarte hoy?"
-  );
+  if (chatResponse.children.length === 0) {
+    addMsg(
+      "¡Hola! Soy Fabrix ¿En qué puedo ayudarte hoy?"
+    );
+  }
 
   userQuestion.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -174,7 +176,6 @@ function initChatInterface() {
     loading.innerHTML = `
     <div style="display: flex; align-items: center; gap: 0.5rem;">
       <div style="width: 12px; height: 12px; border: 2px solid #ff8018; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-      Buscando opciones para ti...
     </div>
   `;
     chatResponse.appendChild(loading);

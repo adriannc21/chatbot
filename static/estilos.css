@@ -141,7 +141,7 @@ body.category-base-de-conocimiento #slider {
   display: flex;
   justify-content: space-between;
   background-color: var(--primary);
-  padding: 2rem 2rem 3rem 2rem;
+  padding: 2rem;
   color: var(--white);
   flex-direction: column;
   align-items: center;
@@ -202,12 +202,11 @@ body.category-base-de-conocimiento #slider {
   filter: invert(1);
 }
 #chatbotFabrix .content .info {
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 1rem;
-  margin-top: -1rem;
   position: relative;
   background-color: var(--white);
-  gap: 2rem;
+  gap: 1rem;
   display: flex;
   flex-direction: column;
 }

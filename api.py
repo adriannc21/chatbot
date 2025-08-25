@@ -25,25 +25,29 @@ def vector_similaridad(vec1, vec2):
 
 def buscar_productos(query, historial, catalog, top_k=2):
     """
-    Python solo filtra productos en stock y top_k según embedding de consulta.
-    No hace inferencias ni calcula precios.
+    Filtra productos en stock y retorna top_k según embedding de la consulta.
+    No depende de palabras clave de categoría.
     """
-    # Combina últimas consultas de usuario para mayor contexto
+    # Combinar últimos mensajes para contexto
     consulta = query
     if historial:
         msgs = [m["content"] for m in historial[-4:] if m["role"]=="user"]
         if msgs:
             consulta = " ".join(msgs[-2:]) + " " + query
 
-    # Filtrado básico de stock
-    catalog_filtrado = [p for p in catalog if p.get("Stock Status", "").lower() == "instock" and "embedding" in p]
+    # Filtrar productos en stock y con embedding
+    catalog_filtrado = [p for p in catalog if p.get("Stock Status","").lower() == "instock" and "embedding" in p]
     if not catalog_filtrado:
         return []
 
-    # Calcular similitudes
+    # Embedding de la consulta
     emb_query = client.embeddings.create(model="text-embedding-3-small", input=consulta).data[0].embedding
+
+    # Calcular similitud coseno
     similitudes = [(vector_similaridad(emb_query, p["embedding"]), p) for p in catalog_filtrado]
     similitudes.sort(key=lambda x: x[0], reverse=True)
+    
+    # Retornar top_k productos más relevantes
     return [p for _, p in similitudes[:top_k]]
 
 def limpiar_respuesta(respuesta):
@@ -57,41 +61,49 @@ def chat():
     data = request.get_json()
     user_msg = data.get("message", "").strip()
     session_id = data.get("session_id")
+
     if not user_msg:
         return jsonify({"error": "Mensaje vacío"}), 400
+
     if not session_id or session_id not in sessions:
         session_id = str(uuid.uuid4())
         sessions[session_id] = {"history": []}
 
     session_data = sessions[session_id]
 
-    # Buscar productos usando embeddings
+    # Buscar productos
     productos_relevantes = buscar_productos(user_msg, session_data["history"], catalog, top_k=2)
 
-    # Armar contenido para la IA (mantener precios exactos)
-    productos_texto = "\n".join([f"{p['Title']} (S/ {p['Sale Price']})" for p in productos_relevantes])
+    # Preparar contenido para la IA
+    productos_texto = "\n".join([f"{p['Title']} (S/ {p.get('Sale Price') or p.get('Regular Price',0)})" for p in productos_relevantes])
     contenido_usuario = user_msg
     if productos_relevantes:
         contenido_usuario += f"\nEstos productos están disponibles:\n{productos_texto}\nResponde de manera natural y haz preguntas de seguimiento si aplica."
 
-    # Preparar mensajes para OpenAI
+    # Mensajes para OpenAI
     mensajes = [{"role": "system", "content": PROMPT_BASE}] + session_data["history"]
     mensajes.append({"role": "user", "content": contenido_usuario})
 
     try:
-        completion = client.chat.completions.create(model="gpt-4o", messages=mensajes, temperature=0.7)
+        completion = client.chat.completions.create(
+            model="gpt-4o",
+            messages=mensajes,
+            temperature=0.7
+        )
         respuesta = completion.choices[0].message.content
     except Exception:
-        respuesta = "Para ayudarte mejor, necesito algunos detalles:\n- Rango de precio?\n- Marca preferida?\n- Color o material deseado?"
+        respuesta = ("Para ayudarte mejor, necesito algunos detalles:\n"
+                     "- Rango de precio?\n"
+                     "- Marca preferida?\n"
+                     "- Color o material deseado?")
 
     # Guardar historial
     session_data["history"].append({"role": "user", "content": user_msg})
     session_data["history"].append({"role": "assistant", "content": respuesta})
 
-    # Limpiar respuesta de precios inventados
     respuesta_final = limpiar_respuesta(respuesta)
 
-    # Preparar JSON
+    # Construir JSON final
     response_data = {
         "session_id": session_id,
         "respuesta": respuesta_final,
@@ -101,10 +113,10 @@ def chat():
     if productos_relevantes:
         response_data["productos"] = [
             {
-                "nombre": p.get("Title", ""),
-                "precio": f"S/ {p.get('Sale Price',0)}",
-                "imagen": p.get("Image URL", ""),
-                "enlace": p.get("Permalink", "")
+                "nombre": p.get("Title",""),
+                "precio": f"S/ {p.get('Sale Price') or p.get('Regular Price',0)}",
+                "imagen": p.get("Image URL",""),
+                "enlace": p.get("Permalink","")
             } for p in productos_relevantes
         ]
 
